@@ -4,7 +4,7 @@ library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
 
 
 pipeline {
-    agent any
+    agent jenkins-agent
     environment {
         ROX_API_TOKEN = credentials('ROX_API_TOKEN')
         ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
