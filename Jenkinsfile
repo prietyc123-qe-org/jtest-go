@@ -5,7 +5,19 @@ library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
 
 pipeline {
     agent {
-        label 'jenkins-agent'
+        kubernetes {
+            label 'jenkins-agent'
+            cloud 'openshift'
+            serviceAccount 'jenkins'
+            podRetention onFailure()
+            idleMinutes '30'
+            containerTemplate {
+                name 'jnlp'
+                image 'image-registry.openshift-image-registry.svc:5000/jenkins/jenkins-agent-base:latest'
+                ttyEnabled true
+                args '${computer.jnlpmac} ${computer.name}'
+            }
+        }
     }
     environment {
         ROX_API_TOKEN = credentials('ROX_API_TOKEN')
